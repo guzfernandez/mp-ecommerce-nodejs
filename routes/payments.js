@@ -2,11 +2,12 @@ var router = require('express').Router();
 var MyRequests = require('../MyRequests');
 
 router.post('/new_payment', async function(req, res) {
+    var imgUrl = process.env.IMG_URL + (req.body.img_url.replace('./assets/', ''))
     var item = {
         id: '1234',
         title: req.body.title,
         description: 'Dispositivo móvil de Tienda e-commerce',
-        picture_url: req.body.img_url,
+        picture_url: imgUrl,
         quantity: 1,
         unit_price: Number(req.body.price)
     }
