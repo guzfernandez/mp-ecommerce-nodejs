@@ -1,5 +1,11 @@
 var router = require('express').Router();
 var MyRequests = require('../MyRequests');
+var mercadopago = require('mercadopago')
+
+mercadopago.configure({
+    access_token: process.env.MP_TOKEN,
+    integrator_id: process.env.INTEGRATOR_ID
+});
 
 router.post('/new_payment', async function(req, res) {
     var imgUrl = process.env.IMG_URL + (req.body.img_url.replace('./assets/', ''))
@@ -14,14 +20,27 @@ router.post('/new_payment', async function(req, res) {
 
     var preference = generatePreference(item);
     console.log(preference);
-    MyRequests.newMercadoPagoPreference(preference, function(error, result){
+
+    /*mercadopago.configurations.setAccessToken(process.env.MP_TOKEN);
+    mercadopago.configurations.setIntegratorId(process.env.INTEGRATOR_ID)*/
+
+    mercadopago.preferences.create(preference)
+    .then(function(response){
+        console.log(JSON.stringify(response));
+        return res.redirect(response.body.init_point)
+    }).catch(function(error){
+        console.error(error);
+        return res.json({success: false})
+    });
+
+    /*MyRequests.newMercadoPagoPreference(preference, function(error, result){
         if(error){
             console.error(error);
             return res.json({success: false})
         }
         console.log(result);
         return res.redirect(result.init_point)
-    })
+    })*/
 });
 
 router.get('/payment_success', async function(req, res) {
@@ -45,13 +64,15 @@ router.get('/payment_error', async function(req, res) {
 router.get('/wh_mercado_pago', async function(req, res) {
     console.log("---GET NOTIFICATION---");
     console.log(req.query);
-    return res.json({success: true})
+    return res.status(200).json({success: true})
 });
 
 router.post('/wh_mercado_pago', async function(req, res) {
     console.log("---POST NOTIFICATION---");
     console.log(req.query);
-    return res.json({success: true})
+    console.log(req.body);
+    console.log(JSON.stringify(req.body));
+    return res.status(200).json({success: true})
 });
 
 function generatePreference(item){
@@ -64,7 +85,7 @@ function generatePreference(item){
         surname: 'Landa',
         email: 'test_user_46542185@testuser.com',
         phone: {
-            area_code: 52,
+            area_code: '52',
             number: 5549737300
         },
 
