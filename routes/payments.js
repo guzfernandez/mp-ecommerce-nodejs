@@ -24,23 +24,23 @@ router.post('/new_payment', async function(req, res) {
     /*mercadopago.configurations.setAccessToken(process.env.MP_TOKEN);
     mercadopago.configurations.setIntegratorId(process.env.INTEGRATOR_ID)*/
 
-    mercadopago.preferences.create(preference)
+    /*mercadopago.preferences.create(preference)
     .then(function(response){
         console.log(JSON.stringify(response));
         return res.redirect(response.body.init_point)
     }).catch(function(error){
         console.error(error);
         return res.json({success: false})
-    });
+    });*/
 
-    /*MyRequests.newMercadoPagoPreference(preference, function(error, result){
+    MyRequests.newMercadoPagoPreference(preference, function(error, result){
         if(error){
             console.error(error);
             return res.json({success: false})
         }
         console.log(result);
         return res.redirect(result.init_point)
-    })*/
+    })
 });
 
 router.get('/payment_success', async function(req, res) {
@@ -82,7 +82,9 @@ function generatePreference(item){
 
     var payer = {
         name: 'Lalo',
+        first_name: 'Lalo',
         surname: 'Landa',
+        last_name: 'Landa',
         email: 'test_user_46542185@testuser.com',
         phone: {
             area_code: '52',
