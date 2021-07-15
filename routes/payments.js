@@ -85,10 +85,10 @@ function generatePreference(item){
         first_name: 'Lalo',
         surname: 'Landa',
         last_name: 'Landa',
-        email: 'test_user_46542185@testuser.com',
+        email: 'test_user_63274575@testuser.com',
         phone: {
-            area_code: '52',
-            number: 5549737300
+            area_code: '11',
+            number: 22223333
         },
 
         identification: {
@@ -97,9 +97,9 @@ function generatePreference(item){
         },
 
         address: {
-            street_name: 'Insurgentes Sur',
-            street_number: 1602,
-            zip_code: '03940'
+            street_name: 'Falsa',
+            street_number: 123,
+            zip_code: '1111'
         }
     }
 
@@ -111,7 +111,7 @@ function generatePreference(item){
     preference.payment_methods = {
         excluded_payment_methods: [
             {
-                id: 'diners'
+                id: 'amex'
             }
         ],
         excluded_payment_types: [
